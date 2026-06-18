@@ -3,35 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vgomes-p <vgomes-p@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vigomes- <vigomes-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/03 14:17:48 by vgomes-p          #+#    #+#             */
-/*   Updated: 2024/12/03 14:17:48 by vgomes-p         ###   ########.fr       */
+/*   Created: 2026/05/13 10:55:57 by vigomes-          #+#    #+#             */
+/*   Updated: 2026/05/13 10:55:57 by vigomes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-/* INCLUDES */
 # include <stdlib.h>
 # include <unistd.h>
 
-/* DEFINE */
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
 # endif
 
-/* FUNCTIONS ON GET_NEXT_LINE.C */
-char	*ft_read(int fd, char *store);
-char	*ft_currline(char *store);
-char	*ft_trimline(char *store);
-char	*get_next_line(int fd);
+size_t	ft_strlen(const char *st);
+char	*gnl_strchr(char const *st, int c);
+char	*gnl_strjoin(char *st1, char *st2);
+char	*gnl_substr(char const *st, unsigned int start, size_t len);
 
-/* FUNCTIONS ON GET_NEXT_LINE_UTILS.C */
-size_t	ft_strlen(const char *var);
-char	*ft_strchr_mod(char const *str, int ch);
-char	*ft_strjoin_mod(char *str0, char *str1);
-char	*ft_substr_mod(char const *str, unsigned int start, size_t len);
+char	*get_next_line(int fd);
 
 #endif

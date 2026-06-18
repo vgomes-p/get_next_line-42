@@ -3,95 +3,96 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vgomes-p <vgomes-p@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vigomes- <vigomes-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/03 14:17:40 by vgomes-p          #+#    #+#             */
-/*   Updated: 2024/12/03 14:17:40 by vgomes-p         ###   ########.fr       */
+/*   Created: 2026/05/13 10:55:51 by vigomes-          #+#    #+#             */
+/*   Updated: 2026/05/13 10:55:51 by vigomes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-//function_01
-char	*ft_read(int fd, char *store)
+static char	*gnl_free(char *store, char *buf)
+{
+	free(store);
+	free(buf);
+	return (NULL);
+}
+
+static char	*gnl_read(int fd, char *store)
 {
 	char	*temp;
-	int		readby;
+	int		i;
 
 	temp = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!temp)
 		return (NULL);
-	readby = 1;
-	while (!ft_strchr_mod(store, '\n') && readby != 0)
+	i = 1;
+	while (!gnl_strchr(store, '\n') && i > 0)
 	{
-		readby = read(fd, temp, BUFFER_SIZE);
-		if (readby < 0)
-		{
-			free(store);
-			free(temp);
-			return (NULL);
-		}
-		temp[readby] = '\0';
-		store = ft_strjoin_mod(store, temp);
+		i = read(fd, temp, BUFFER_SIZE);
+		if (i < 0)
+			return (gnl_free(store, temp));
+		if (i == 0)
+			break ;
+		temp[i] = '\0';
+		store = gnl_strjoin(store, temp);
 	}
 	free (temp);
 	return (store);
 }
 
-//function_02
-char	*ft_currline(char *store)
+static char	*gnl_get_current_line(char *store)
 {
-	int		cnt;
+	int		i;
 	char	*line;
 
-	cnt = 0;
-	if (!store[cnt])
+	i = 0;
+	if (!store[i])
 		return (NULL);
-	while (store[cnt] && store[cnt] != '\n')
-		cnt++;
-	line = ft_substr_mod(store, 0, cnt + (store[cnt] == '\n'));
+	while (store[i] && store[i] != '\n')
+		i++;
+	line = gnl_substr(store, 0, i + (store[i] == '\n'));
 	return (line);
 }
 
-//function_03
-char	*ft_trimline(char *store)
+static char	*gnl_trimmer(char *store)
 {
 	char	*str;
-	int		cnt0;
-	int		cnt1;
+	int		i;
+	int		j;
 
-	cnt0 = 0;
-	cnt1 = 0;
-	while (store[cnt0] && store[cnt0] != '\n')
-		cnt0++;
-	if (!store[cnt0])
+	i = 0;
+	j = 0;
+	while (store[i] && store[i] != '\n')
+		i++;
+	if (!store[i])
 	{
 		free(store);
 		return (NULL);
 	}
-	str = malloc(sizeof(char) * (ft_strlen(store) - cnt0 + 1));
+	str = malloc(sizeof(char) * (ft_strlen(store) - i + 1));
 	if (!str)
 		return (NULL);
-	cnt0++;
-	while (store[cnt0])
-		str[cnt1++] = store[cnt0++];
-	str[cnt1] = '\0';
+	i++;
+	while (store[i])
+		str[j++] = store[i++];
+	str[j] = '\0';
 	free (store);
 	return (str);
 }
 
-//function_00
 char	*get_next_line(int fd)
 {
 	char		*line;
 	static char	*store;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (0);
-	store = ft_read(fd, store);
+		return (NULL);
+	store = gnl_read(fd, store);
 	if (!store)
-		return (0);
-	line = ft_currline(store);
-	store = ft_trimline(store);
+		return (NULL);
+	line = gnl_get_current_line(store);
+	store = gnl_trimmer(store);
 	return (line);
 }

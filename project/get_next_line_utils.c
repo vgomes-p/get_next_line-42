@@ -3,92 +3,88 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vgomes-p <vgomes-p@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vigomes- <vigomes-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/03 14:17:30 by vgomes-p          #+#    #+#             */
-/*   Updated: 2024/12/03 14:17:30 by vgomes-p         ###   ########.fr       */
+/*   Created: 2026/05/13 10:55:47 by vigomes-          #+#    #+#             */
+/*   Updated: 2026/05/13 10:55:47 by vigomes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-//function_00
-size_t	ft_strlen(const char *var)
+size_t	ft_strlen(const char *st)
 {
-	size_t	cnt;
+	size_t	i;
 
-	cnt = 0;
-	while (var[cnt] != '\0')
+	i = 0;
+	while (st[i] != '\0')
 	{
-		cnt++;
+		i++;
 	}
-	return (cnt);
+	return (i);
 }
 
-//function_01
-char	*ft_strchr_mod(char const *str, int ch)
+char	*gnl_strchr(char const *st, int c)
 {
-	int		cnt;
-	char	*strbase;
+	int		i;
+	char	*base;
 
-	if (!str || !ch)
+	if (!st || !c)
 		return (NULL);
-	cnt = 0;
-	strbase = (char *)str;
-	while (strbase[cnt])
+	i = 0;
+	base = (char *)st;
+	while (base[i])
 	{
-		if (strbase[cnt] == (char) ch)
-			return (&strbase[cnt]);
-		cnt++;
+		if (base[i] == (char)c)
+			return (&base[i]);
+		i++;
 	}
 	return (0);
 }
 
-//function_02
-char	*ft_strjoin_mod(char *str0, char *str1)
+char	*gnl_strjoin(char *st1, char *st2)
 {
-	char		*nwstr;
-	size_t		cnt0;
-	size_t		cnt1;
+	char	*str;
+	size_t	i;
+	size_t	j;
 
-	if (!str0)
+	if (!st1)
 	{
-		str0 = malloc(sizeof(char));
-		str0[0] = '\0';
+		st1 = malloc(sizeof(char));
+		st1[0] = '\0';
 	}
-	nwstr = malloc((ft_strlen(str0) + ft_strlen(str1)) + 1);
-	if (!nwstr)
-		return (NULL);
-	cnt0 = 0;
-	cnt1 = 0;
-	while (str0[cnt0])
-	{
-		nwstr[cnt0] = str0[cnt0];
-		cnt0++;
-	}
-	while (str1[cnt1])
-		nwstr[cnt0++] = str1[cnt1++];
-	nwstr[cnt0] = '\0';
-	free(str0);
-	return (nwstr);
-}
-
-//function_03
-char	*ft_substr_mod(char const *str, unsigned int start, size_t len)
-{
-	char	*nwstr;
-	size_t	cnt0;
-	size_t	cnt1;
-
-	nwstr = malloc(len + 1);
-	if (!nwstr)
-		return (NULL);
+	str = malloc((ft_strlen(st1) + ft_strlen(st2)) + 1);
 	if (!str)
 		return (NULL);
-	cnt0 = start;
-	cnt1 = 0;
-	while (cnt0 < ft_strlen(str) && cnt1 < len)
-		nwstr[cnt1++] = str[cnt0++];
-	nwstr[cnt1] = '\0';
-	return (nwstr);
+	i = 0;
+	j = 0;
+	while (st1[i])
+	{
+		str[i] = st1[i];
+		i++;
+	}
+	while (st2[j])
+		str[i++] = st2[j++];
+	str[i] = '\0';
+	free(st1);
+	return (str);
+}
+
+char	*gnl_substr(char const *st, unsigned int start, size_t len)
+{
+	char	*str;
+	size_t	i;
+	size_t	j;
+
+	str = malloc(len + 1);
+	if (!str)
+		return (NULL);
+	if (!st)
+		return (NULL);
+	i = start;
+	j = 0;
+	while (i < ft_strlen(st) && j < len)
+		str[j++] = st[i++];
+	str[j] = '\0';
+	return (str);
 }
