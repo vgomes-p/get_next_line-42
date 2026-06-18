@@ -15,17 +15,17 @@ of the 42 curriculum by vigomes-*
 git clone https://github.com/vgomes-p/get_next_line-42.git
 ```
 
-### 2 - Go to project directory
+### 2 - Go to the project directory
 ```bash
 cd get_next_line-42/project/
 ```
 
-### 2 - Compile the program
+### 3 - Compile the program
 ```bash
 make
 ```
 
-#### 3 - Run it
+#### 4 - Run it
 ```bash
 ./gnl_tester <files_path> <optional flag>
 ```
